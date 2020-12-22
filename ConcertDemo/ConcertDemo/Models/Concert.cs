@@ -6,7 +6,8 @@ namespace ConcertDemo.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public DateTime ShowDate { get; set; }
+        public DateTime? ShowDate { get; set; }
         public string Location { get; set; }
+        // public virtual ConcertTicket ConcertTicket { get; set; }
     }
 }
