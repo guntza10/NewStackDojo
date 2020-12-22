@@ -56,10 +56,10 @@
 > `Note : ` EF จะจัดการ CRUD operation โดยใช้ `Entity Data Model` ในการสร้าง SQL query จาก LINQ query และ build INSERT,UPDATE,DELETE แล้วแปลง result ที่ได้จาก database ให้เป็น entity object
 > #### **Querying**
 > EF Api จะแปลง LINQ-to-entities ให้เป็น SQL query แล้ว execute ไปที่ database โดยใช้ EDM และแปลง result ที่ได้กลับมาเป็น Entity object
->![EFQuery](img\EFQuery.PNG)
+>![EFQuery](img/EFQuery.PNG)
 > #### **Saving**
 > เมื่อมีการ INSERT,UPDATE,DELETE เราจะ keep track change, save change to database โดยใช้ SaveChanges()
->![EFQuery](img\EFSave.PNG)
+>![EFQuery](img/EFSave.PNG)
 > #### **Context class in Entity Framework**
 > `DbContext` เป็น class ที่เอาไว้
 > - จัดการ connection กับ sql server (database)
