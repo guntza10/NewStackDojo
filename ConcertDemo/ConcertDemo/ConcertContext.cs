@@ -10,7 +10,6 @@ namespace ConcertDemo
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SchoolDB;Trusted_Connection=True;");
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-U976KNE\SQLEXPRESS;Database=DemoDb;Trusted_Connection=True;");
         }
     }
