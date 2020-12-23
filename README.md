@@ -1,5 +1,8 @@
 # NewStackDojo
 
+>## `Transaction`
+>
+
 >## `Microsoft SQL Server`
 > คือ service SQL server ของ Microsoft ที่เอาไว้จัดการเกี่ยวกับ database
 > ### **ข้อจำกัด**
@@ -84,7 +87,36 @@
 > 2. Navigation property => มี 2 แบบ
 >    - Reference => เป็น property ที่ ref ถึง Entity class อื่น
 >    - Collection => เป็น property ที่เป็น collection และมี type collection ref ถึง Entity class อื่น
+> #### **Migration**
+> เป็นวิธีที่ทำให้ database schema sync กับ EF core model
 >
+>![EFCoreModel](img/EFCoreModel.PNG)
 >
-
->## `Feature Transaction`
+> - จากรูป EF Core Api จะสร้าง EF Core Model จาก Entity(Domain) class
+> - EF Core Migration จะ Create หรือ Update database schema ผ่าน EF Core Model 
+> - เมื่อ Entity(Domain) class มีการเปลี่ยนแปลง เราต้อง run migration ทุกครั้งเพื่อ update database schema ให้ตรงกับ Entity class ที่เราเปลี่ยนแปลง
+>
+> EF Core Migration Command มีดังนี้
+>![EFMigrationCommand](img/EFMigrationCommand.PNG)
+>
+> 1. **Adding a Migration**
+>
+>![AddMigration](img/AddMigration.PNG)
+> - ตอนเริ่มเรายังไม่มี database เราต้องสร้าง Entity(Domain) class
+> - สร้าง Migration สำหรับการ create, update database schema(`เอาไว้สำหรับ sync กับ EF Core Model`)
+> - เมื่อเราสร้าง Migration จะได้ Folder ของการ Migration มามี 3 ไฟล์
+>    - < timestamp>_< Migration Name>.cs -> เป็นไฟล์หลักของ migration จะมี migration operation Up(), Down()
+>       - Up() -> จะมี code ที่จัดการเกี่ยวกับ create database object
+>       - Down() -> จะมี code ที่จัดการเกี่ยวกับ remove database object
+>    - < timestamp>_< Migration Name>.Designer.cs -> เป็นไฟล์ migration metadata ที่จะมีข้อมูลที่ใช้กับ EF Core
+>    - < contextclassname>ModelSnapshot.cs -> เป็น `snapshot model` ใช้กำหนดการเปลี่ยนแปลง เมื่อมีการ create next migration
+> - หลังจากเราสร้าง Migration เสร็จ ขั้นตอนต่อไปคือ create database
+> 2. **Creating or Updating the Database**
+>
+> ![UpdateMigration](img/UpdateMigration.PNG)
+> - Updatate command จะสร้าง database,table จาก context class,entity class,migration snapshot (`ที่ถูกสร้างจาก add command`)
+> - ถ้าเป็นการ migration ครั้งแรกมันจะสร้าง Table ให้ตาม EntitySet ที่อยู่ใน Context class แต่ถ้าไม่ใช่ครั้งแรกมันจะไป update database schema ให้แทน
+> 3. **Removing a Migration**
+>
+> ![RemoveMigration](img/RemoveMigration.PNG)
+> - เราสามารถ remove last migration ที่เราไม่ใช้ โดย remove command จะไป remove last created migration, revert snapshot model กลับไปเป็นของ migration ก่อนหน้า
