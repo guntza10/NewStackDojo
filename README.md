@@ -9,6 +9,9 @@
 > - ถอนเงินจาก Account1
 > - แล้วนำมาฝากเข้า Account2\
 > ถ้าทั้ง 2 process success ก็จะไม่มีปัญหาอะไร แต่ถ้าสมมติ process แรก success แต่ process ที่ 2 fail เงินมันถูกถอนออกจาก Account1 แล้วแต่ยังไม่ถูกฝากเข้า Account2 นี่เป็นตัวอย่างปัญหาที่เกิดขึ้น เราจึงใช้ transaction มาจัดการปัญหาพวกนี้
+>
+> `How To :` 
+> -  https://www.c-sharpcorner.com/article/transaction-in-net/
 
 >## `Microsoft SQL Server`
 > คือ service SQL server ของ Microsoft ที่เอาไว้จัดการเกี่ยวกับ database
