@@ -1,7 +1,14 @@
 # NewStackDojo
 
 >## `Transaction`
+> transaction เป็น unit of work ของข้อมูลที่เปลี่ยนแปลงบน database
+> - ถ้า transaction success => ทุก data operation จะโดน commit และ save ทุกการเปลี่ยนแปลงลง database
+> - ถ้า transaction error/fail => ทุก data operation จะโดน cancle,rollback ทุกๆ data ที่มีการเปลี่ยนแปลงจะถูก remove
 >
+> `EX.` มีการแลกเปลี่ยนเงินระหว่าง Account1,Account2 จะมี 2 process เกิดขึ้น
+> - ถอนเงินจาก Account1
+> - แล้วนำมาฝากเข้า Account2\
+> ถ้าทั้ง 2 process success ก็จะไม่มีปัญหาอะไร แต่ถ้าสมมติ process แรก success แต่ process ที่ 2 fail เงินมันถูกถอนออกจาก Account1 แล้วแต่ยังไม่ถูกฝากเข้า Account2 นี่เป็นตัวอย่างปัญหาที่เกิดขึ้น เราจึงใช้ transaction มาจัดการปัญหาพวกนี้
 
 >## `Microsoft SQL Server`
 > คือ service SQL server ของ Microsoft ที่เอาไว้จัดการเกี่ยวกับ database
@@ -120,3 +127,18 @@
 >
 > ![RemoveMigration](img/RemoveMigration.PNG)
 > - เราสามารถ remove last migration ที่เราไม่ใช้ โดย remove command จะไป remove last created migration, revert snapshot model กลับไปเป็นของ migration ก่อนหน้า
+
+>## `Reference `
+> - https://www.c-sharpcorner.com/article/transaction-in-net/
+> - https://www.entityframeworktutorial.net/what-is-entityframework.aspx
+> - https://www.entityframeworktutorial.net/basics/basic-workflow-in-entity-framework.aspx
+> - https://www.entityframeworktutorial.net/basics/how-entity-framework-works.aspx
+> - https://www.entityframeworktutorial.net/EntityFramework-Architecture.aspx
+> - https://www.entityframeworktutorial.net/basics/context-class-in-entity-framework.aspx
+> - https://www.entityframeworktutorial.net/efcore/entity-framework-core-dbcontext.aspx
+> - https://www.entityframeworktutorial.net/basics/entity-in-entityframework.aspx
+> - https://www.entityframeworktutorial.net/efcore/entity-framework-core-console-application.aspx
+> - https://www.thaicreate.com/tutorial/entity-framework-introduction.html
+> - https://www.c-sharpcorner.com/UploadFile/201fc1/sql-server-database-connection-in-csharp-using-adonet/
+> - https://www.entityframeworktutorial.net/querying-entity-graph-in-entity-framework.aspx
+> - https://www.entityframeworktutorial.net/efcore/entity-framework-core-migration.aspx
