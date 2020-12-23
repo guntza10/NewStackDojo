@@ -8,6 +8,5 @@ namespace ConcertDemo.Models
         public string Title { get; set; }
         public DateTime? ShowDate { get; set; }
         public string Location { get; set; }
-        // public virtual ConcertTicket ConcertTicket { get; set; }
     }
 }

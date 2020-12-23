@@ -9,6 +9,5 @@ namespace ConcertDemo.Models
         public Int16 StatusId { get; set; }
         public string ReservedBy { get; set; }
         public DateTime? ReservedDate { get; set; }
-        // public virtual Concert Concert { get; set; }
     }
 }
