@@ -15,10 +15,10 @@ namespace ConcertDemo
             using (var context = new ConcertContext())
             {
                 concert = context.Concert.Where(it => it.Id == 6).FirstOrDefault();
-                concertTicket = context.ConcertTicket.Where(it => it.Id == 4 && it.ConcertId == 6).FirstOrDefault();
+                concertTicket = context.ConcertTicket.Where(it => it.Id == 43 && it.ConcertId == 6).FirstOrDefault();
             }
 
-            var resultBooking = BookConcertTicket(concert, concertTicket, "P'pub");
+            var resultBooking = BookConcertTicket(concert, concertTicket, "Gunt");
             Console.WriteLine($"Booking Status : {resultBooking.StatusBooking}");
             Console.WriteLine($"Booking Message : {resultBooking.StatusMessage}");
         }
@@ -55,7 +55,7 @@ namespace ConcertDemo
                     return new BookTicketStatus
                     {
                         StatusBooking = 0, // StatusBooking ไม่เกี่ยวกับ StatusId ของ concertTicket เป็น 0 คือจองไม่สำเร็จ
-                        StatusMessage = "Unavaliable"
+                        StatusMessage = "Unavailable"
                     };
                 }
             }
