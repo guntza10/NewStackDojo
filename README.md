@@ -4,53 +4,14 @@
 >
 > ![architectureAppEF](img/architectureAppEF.PNG);
 >
-> ## `Transaction`
+> 1. `DbContext` => จะเป็นส่วนของ Data Access ที่จัดเกี่ยวกับการเชื่อมต่อกับ Database
+> 2. `Repository (Repo)` => จะทำหน้าที่เป็น service ที่เป็นตัวกลางในการจัดการข้อมูลระหว่าง `Controller` กับ `DbContext` จะทำหน้าที่ 2 อย่าง
 >
-> transaction เป็น unit of work ของข้อมูลที่เปลี่ยนแปลงบน database
+> - `Repository` Read/Write `DbContext` เพื่อเข้าถึงข้อมูลบน Database เพื่อนำข้อมูลมาจัดการ process อะไรซักอย่างต่อ
+> - `Controller` จะเข้ามา Read/Write Repository เพื่อเรียกใช้ process อะไรซักอย่างที่จัดการกับข้อมูลบน Database
 >
-> - ถ้า transaction success => ทุก data operation จะโดน commit และ save ทุกการเปลี่ยนแปลงลง database
-> - ถ้า transaction error/fail => ทุก data operation จะโดน cancle,rollback ทุกๆ data ที่มีการเปลี่ยนแปลงจะถูก remove
->
-> `EX.` มีการแลกเปลี่ยนเงินระหว่าง Account1,Account2 จะมี 2 process เกิดขึ้น
->
-> - ถอนเงินจาก Account1
-> - แล้วนำมาฝากเข้า Account2\
->   ถ้าทั้ง 2 process success ก็จะไม่มีปัญหาอะไร แต่ถ้าสมมติ process แรก success แต่ process ที่ 2 fail เงินมันถูกถอนออกจาก Account1 แล้วแต่ยังไม่ถูกฝากเข้า Account2 นี่เป็นตัวอย่างปัญหาที่เกิดขึ้น เราจึงใช้ transaction มาจัดการปัญหาพวกนี้
->
-> `How To :`
->
-> - https://www.c-sharpcorner.com/article/transaction-in-net/
-
-> ## `Microsoft SQL Server`
->
-> คือ service SQL server ของ Microsoft ที่เอาไว้จัดการเกี่ยวกับ database
->
-> ### **ข้อจำกัด**
->
-> - สร้าง database ได้มากสุดคือ 32,767
->
-> ### **ข้อกำหนดเบื้องต้น**
->
-> - Create database statement มันจะ autocommit เป็น default และจะไม่อนุญาติ explicit หรือ implicit transaction
->
-> ### **คำแนะนำ**
->
-> - master database จะถูก back up ไว้เมื่อไรก็ตามที่มีการสร้าง,เปลี่ยนแปลง,ลบ
-> - รองรับข้อมูลจำนวนมาก
->
-> มี 4 แบบ
->
-> 1. enterprise
-> 2. standard
-> 3. express
-> 4. developer
->
-> `Note : `
->
-> - enterprise, standard สำหรับ production,มีค่าใช้จ่าย license, มี feature ให้ใช้เยอะ มีค่าใช้จ่ายสูง
-> - express, developer เป็นแบบ free
-> - express มีพื้นที่จัดเก็บจำกัด 10 GB (เพียงพอต่อการใช้งานกับ data ขนาดเล็ก)
-> - developer มี feature ทุกอย่างเหมือน enterprise แต่ไม่สามารถใช้กับ production ได้
+> 3. `Controller` => จะเป็นตัวจัดการเกี่ยวกับ Endpoint ของ Api
+> 4. `Data Object Transfer (DTO)` => เป็น model ที่ Client ต้องการจากฝั่ง Server จริงๆ เพราะในชีวิตจริง Client ไม่ได้ต้องการข้อมูลทุก field (column) บน Table ต้องการจะเฉพาะบาง field เท่านั้น
 
 > ## `ADO.NET กับ Entity Framework `
 >
@@ -179,6 +140,54 @@
 > ![RemoveMigration](img/RemoveMigration.PNG)
 >
 > - เราสามารถ remove last migration ที่เราไม่ใช้ โดย remove command จะไป remove last created migration, revert snapshot model กลับไปเป็นของ migration ก่อนหน้า
+
+> ## `Transaction`
+>
+> transaction เป็น unit of work ของข้อมูลที่เปลี่ยนแปลงบน database
+>
+> - ถ้า transaction success => ทุก data operation จะโดน commit และ save ทุกการเปลี่ยนแปลงลง database
+> - ถ้า transaction error/fail => ทุก data operation จะโดน cancle,rollback ทุกๆ data ที่มีการเปลี่ยนแปลงจะถูก remove
+>
+> `EX.` มีการแลกเปลี่ยนเงินระหว่าง Account1,Account2 จะมี 2 process เกิดขึ้น
+>
+> - ถอนเงินจาก Account1
+> - แล้วนำมาฝากเข้า Account2\
+>   ถ้าทั้ง 2 process success ก็จะไม่มีปัญหาอะไร แต่ถ้าสมมติ process แรก success แต่ process ที่ 2 fail เงินมันถูกถอนออกจาก Account1 แล้วแต่ยังไม่ถูกฝากเข้า Account2 นี่เป็นตัวอย่างปัญหาที่เกิดขึ้น เราจึงใช้ transaction มาจัดการปัญหาพวกนี้
+>
+> `How To :`
+>
+> - https://www.c-sharpcorner.com/article/transaction-in-net/
+
+> ## `Microsoft SQL Server`
+>
+> คือ service SQL server ของ Microsoft ที่เอาไว้จัดการเกี่ยวกับ database
+>
+> ### **ข้อจำกัด**
+>
+> - สร้าง database ได้มากสุดคือ 32,767
+>
+> ### **ข้อกำหนดเบื้องต้น**
+>
+> - Create database statement มันจะ autocommit เป็น default และจะไม่อนุญาติ explicit หรือ implicit transaction
+>
+> ### **คำแนะนำ**
+>
+> - master database จะถูก back up ไว้เมื่อไรก็ตามที่มีการสร้าง,เปลี่ยนแปลง,ลบ
+> - รองรับข้อมูลจำนวนมาก
+>
+> มี 4 แบบ
+>
+> 1. enterprise
+> 2. standard
+> 3. express
+> 4. developer
+>
+> `Note : `
+>
+> - enterprise, standard สำหรับ production,มีค่าใช้จ่าย license, มี feature ให้ใช้เยอะ มีค่าใช้จ่ายสูง
+> - express, developer เป็นแบบ free
+> - express มีพื้นที่จัดเก็บจำกัด 10 GB (เพียงพอต่อการใช้งานกับ data ขนาดเล็ก)
+> - developer มี feature ทุกอย่างเหมือน enterprise แต่ไม่สามารถใช้กับ production ได้
 
 > ## `Reference `
 >
