@@ -157,21 +157,15 @@
 >
 > ### `Summary`
 >
-> - จะสร้าง layer ที่ทำหน้าที่เป็น Database Model เป็น class ใน project
-> - Entity Framework จะ mapping class (`Database Model`) กับ Table,View,Store Procedure บน Database มาไว้ที่ project
-> - ทำให้เวลาจะ query ไม่ต้องเขียน SQL statement แล้วส่งไป execute ต่อที่ Table อีก
-> - Entity Framework จะจัดการให้เราทุกอย่างเกี่ยวกับการเชื่อมต่อกับ Database ไม่ว่าจะเป็นพวกคำสั่ง DataSet, DataTable, DataReader, ExecuteNonQuery เราสามารถเรียกใช้งาน Table ได้เลยผ่าน EntitySet ที่มันสร้างขึ้น
-> - ใช้ LINQ ในการ query แทนการเขียน SQL statement(`ใช้งานกับ Entity Framework`)
+> #### _`ข้อดี`_
 >
-> ## **`ADO.NET`**
+> - ปกติถ้าเราไม่ใช้ `EF` เราจะต้องจัดการหลายอย่าง ไม่ว่าจะเป็นสร้าง connection,เปิด connection,ส่ง SQL statement ไป execute ที่ Database ได้ result,ปิด connection แต่ถ้าเราใช้ `EF` เราไม่ต้องจัดการเรื่องพวกนี้เลย `EF` จัดการให้แล้วผ่าน `Context Class` ที่เราสามารถเข้าถึงแต่ละ Table ผ่าน EntitySet ที่เป็น property ของ `Context Class`
+> - เราแทบจะไม่ต้องเขียน SQL statement เพื่อส่งไป execute ที่ Database แต่ใช้ `LINQ to Entities(L2E)` ทำให้เราเขียน code ง่ายขึ้นสะดวกขึ้นและรวดเร็ว และ code อ่านง่าย จัดการง่าย
 >
-> เป็น Library ที่จัดการการติดต่อระหว่าง Application กับ Database
+> #### _`ข้อเสีย`_
 >
-> - สร้าง connection การเชื่อมต่อกับ sql server
-> - เปิดการเชื่อมต่อ
-> - สร้าง SQL statement
-> - ส่ง SQL statement ไป execute ต่อที่ Table
-> - ปิดการเชื่อมต่อ
+> - ในกรณีที่การ query ข้อมูลมีความซับซ้อนมากๆเกินการเขียน `L2E` เพื่อให้ Entity ทำงานได้ตรงตามความต้องการอาจจะค่อนข้างยาก เพราะฉะนั้นอาจจะต้องเขียน Query บน View Table หรือ Store Procedure แทนจะทำงานได้เร็วกว่า Entity
+> - performance เมื่อเทียบกับ `Dapper`, `ADO.NET` แล้วจะด้อยกว่า เพราะ EF ต้องแปลง `L2E` ไปเป็น `SQL query`ก่อนจะส่งไป execute ที่ Database ทำให้ `Dapper`, `ADO.NET` จะเร็วกว่าเนื่องจากส่ง `SQL query` ไป execute โดยตรงเลย
 
 > ## `Transaction`
 >
@@ -236,3 +230,4 @@
 > - https://www.c-sharpcorner.com/UploadFile/201fc1/sql-server-database-connection-in-csharp-using-adonet/
 > - https://www.entityframeworktutorial.net/querying-entity-graph-in-entity-framework.aspx
 > - https://www.entityframeworktutorial.net/efcore/entity-framework-core-migration.aspx
+> - https://exceptionnotfound.net/dapper-vs-entity-framework-vs-ado-net-performance-benchmarking/
